@@ -4,6 +4,7 @@ import ordersRouter from './modules/订单管理'
 import authorityRouter from './modules/权限管理'
 import goodsRouter from './modules/商品管理'
 import dataRouter from './modules/数据统计'
+// import usersListRouter from './modules/用户列表'
 import usersRouter from './modules/用户管理'
 Vue.use(Router)
 

@@ -3,7 +3,7 @@
     <el-form
       ref="loginForm"
       :model="loginForm"
-      :rules="loginRules"
+      :rules="rules"
       class="login-form"
       auto-complete="on"
       label-position="left"
@@ -19,7 +19,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="username"
           name="username"
           type="text"
           tabindex="1"
@@ -32,110 +32,101 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input
-          :key="passwordType"
           ref="password"
           v-model="loginForm.password"
-          :type="passwordType"
           placeholder="Password"
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="Handlerlogin"
         />
-        <span class="show-pwd" @click="showPwd">
+        <!-- <span class="show-pwd" @click="showPwd">
           <svg-icon
             :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
           />
-        </span>
+        </span> -->
       </el-form-item>
 
       <el-button
-        :loading="loading"
         type="info"
         style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
-        >Login</el-button
+        @click.native.prevent="Handlerlogin"
+        >登录</el-button
       >
-
-      <div class="tips">
-        <span style="margin-right: 20px">username: admin</span>
-        <span> password: any</span>
-      </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data () {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
+        // 字段名都是和接口文档保持一致
+
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
+      rules: {
+        username: [
+          { required: true, message: '用户名不能为空', trigger: 'blur' },
+          { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+        ]
+      }
+      // passwordType: 'password'
+
     }
   },
   watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
+    // $route: {
+    //   handler: function (route) {
+    //     this.redirect = route.query && route.query.redirect
+    //   },
+    //   immediate: true
+    // }
   },
+
   methods: {
-    showPwd () {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+    ...mapActions(['user/login']),
+    // showPwd () {
+    //   if (this.passwordType === 'password') {
+    //     this.passwordType = ''
+    //   } else {
+    //     this.passwordType = 'password'
+    //   }
+    //   this.$nextTick(() => {
+    //     this.$refs.password.focus()
+    //   })
+    // },
+    reset () {
+      // 获取表单组件实现对象
+      // 对整个表单进行重置为初始值并移除校验结果
+      this.$refs.loginFormRef.resetFields()
     },
-    handleLogin () {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+
+    async Handlerlogin () {
+      // 二次校验
+
+      try {
+        await this.$refs.loginForm.validate()
+        await this.$store.dispatch('user/login', this.loginForm)
+
+        // todo 把token存到vuex中 并且持久化到 localStorage
+        this.$router.push('/')
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
+
 </script>
 
 <style lang="scss">
@@ -154,7 +145,6 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
-
   .el-input {
     display: inline-block;
     height: 47px;
@@ -196,7 +186,7 @@ $light_gray: #eee;
   width: 100%;
   // background-color: $bg;
   overflow: hidden; // 设置背景图片
-  background-image: url('~@/assets/common/bg.png');
+  background-image: url("~@/assets/common/bg.png");
   background-position: center; // 将图片位置设置为充满整个屏幕
 
   .login-form {

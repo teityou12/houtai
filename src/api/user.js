@@ -1,24 +1,27 @@
 import request from '@/utils/request'
 
-export function login(data) {
-  return request({
-    url: '/vue-admin-template/user/login',
-    method: 'post',
-    data
-  })
-}
+export const login = (data) => request({
+  url: 'login',
+  method: 'POST',
+  data
 
-export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
+})
 
-export function logout() {
+/**
+ * 获取用户列表
+ */
+
+export const getUserlist = (params) => request({
+  url: 'users',
+  params
+})
+
+/**
+ * 删除用户
+ */
+export function deleteUser (id) {
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url: `users/${id}`,
+    method: 'DELETE'
   })
 }
