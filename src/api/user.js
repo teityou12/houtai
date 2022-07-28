@@ -25,3 +25,20 @@ export function deleteUser (id) {
     method: 'DELETE'
   })
 }
+
+/**
+ * 新增用户
+ */
+
+export function addUser (data) {
+  return request({
+    url: 'users',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 编辑用户
+ */
+

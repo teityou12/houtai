@@ -2,13 +2,29 @@ import Layout from '@/layout'
 
 export default {
   path: '/goods',
-  name: 'name',
+  name: 'goods',
   component: Layout,
-  children: [{
-    path: '',
-    component: () => import('@/views/商品管理'),
-    meta: {
-      title: '商品管理', icon: 'form'
+
+  meta: {
+    title: '商品管理', icon: 'form'
+  },
+
+  children: [
+    {
+      path: '/goodslist', name: 'goodslist', component: () => import('@/views/商品管理/商品列表/index.vue'), meta: {
+        title: '商品列表', icon: 'table'
+      }
+    },
+    {
+      path: '/classindex', name: 'classindex', component: () => import('@/views/商品管理/分类参数/index.vue'), meta: {
+        title: '分类参数', icon: 'table'
+      }
+    },
+    {
+      path: '/goodsclass', name: 'goodsclass', component: () => import('@/views/商品管理/商品分类/index.vue'), meta: {
+        title: '商品分类', icon: 'table'
+      }
     }
-  }]
+  ]
+
 }

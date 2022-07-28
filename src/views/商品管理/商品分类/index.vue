@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>商品分类</div>
 </template>
 
 <script>
@@ -20,4 +18,3 @@ export default {
 
 <style scoped lang='scss'>
 </style>
-

@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">开心客栈</div>
+    <ImageUpload />
   </div>
 </template>
 

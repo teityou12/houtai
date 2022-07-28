@@ -195,6 +195,8 @@ module.exports = {
     }],
     'array-bracket-spacing': [2, 'never'],
     'space-before-function-paren': 0,
-    'object-curly-spacing': 0
+    'object-curly-spacing': 0,
+    'Parsing error: invalid-first-character-of-tag-name': 0,
+    'vue/no-multiple-template-root': 0
   }
 }

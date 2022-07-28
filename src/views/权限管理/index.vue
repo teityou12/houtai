@@ -1,5 +1,7 @@
 <template>
-  <div>权限管理</div>
+  <div>
+    <ruoter-view />
+  </div>
 </template>
 
 <script>
@@ -18,4 +20,3 @@ export default {
 
 <style scoped lang='scss'>
 </style>
-
