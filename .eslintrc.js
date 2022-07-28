@@ -197,6 +197,9 @@ module.exports = {
     'space-before-function-paren': 0,
     'object-curly-spacing': 0,
     'Parsing error: invalid-first-character-of-tag-name': 0,
-    'vue/no-multiple-template-root': 0
+    'vue/no-multiple-template-root': 0,
+    'vue/max-attributes-per-line':0,
+    'vue/html-closing-bracket-newline':0,
+    'vue/html-indent':0
   }
 }

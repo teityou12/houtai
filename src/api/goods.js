@@ -7,7 +7,7 @@ export const getGoodsList = (params) => request({
 })
 
 /**
- * 获取商品参数列表
+ * 商品分类数据列表
  */
 
 export const getCategories = (params) => request({

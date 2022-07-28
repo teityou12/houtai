@@ -11,6 +11,9 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
+import treeTable from 'vue-table-with-tree-grid'
+
+Vue.component('tree-table', treeTable)
 
 import '@/icons' // icon
 import '@/permission' // permission control
