@@ -14,7 +14,15 @@ export default {
       path: '/goodslist', name: 'goodslist', component: () => import('@/views/商品管理/商品列表/index.vue'), meta: {
         title: '商品列表', icon: 'table'
       }
+
     },
+
+    {
+      path: '/goods/add', name: 'goodsadd', component: () => import('@/views/商品管理/商品列表/components/Add.vue'),
+      meta: { title: '添加商品' },
+      hidden: true
+    },
+
     {
       path: '/classindex', name: 'classindex', component: () => import('@/views/商品管理/分类参数/index.vue'), meta: {
         title: '分类参数', icon: 'table'

@@ -41,4 +41,21 @@ export function addUser (data) {
 /**
  * 编辑用户
  */
+export function editUser (data) {
+  return request({
+    url: `users/${data.id}`,
+    method: 'PUT',
+    data
+  })
+}
 
+/**
+ * 分配新角色
+ */
+export function addroles (data) {
+  return request({
+    url: `users/${data.id}/role`,
+    method: 'PUT',
+    data
+  })
+}

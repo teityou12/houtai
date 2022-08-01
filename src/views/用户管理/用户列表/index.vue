@@ -11,7 +11,9 @@
                 <el-button slot="append" icon="el-icon-search" />
               </el-input>
             </div>
-            <el-button type="primary" @click="showDialog = true">添加用户</el-button>
+            <el-button type="primary" @click="showDialog = true"
+              >添加用户</el-button
+            >
           </el-row>
         </el-col>
         <el-col>
@@ -37,7 +39,7 @@
               type="primary"
               size="mini"
               icon="el-icon-edit"
-              @click="showEditDialog = true"
+              @click="EditDialog(row)"
             />
             <el-button
               type="danger"
@@ -45,7 +47,12 @@
               icon="el-icon-delete"
               @click="deleteUser(row.id)"
             />
-            <el-button type="warning" size="mini" icon="el-icon-setting" />
+            <el-button
+              type="warning"
+              size="mini"
+              icon="el-icon-setting"
+              @click="rolesDialog = true"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -56,8 +63,8 @@
           :rules="rules"
           label-width="80px"
         >
-          <el-form-item label="用户名称">
-            <el-input />
+          <el-form-item label="用户名称" prop="username">
+            <el-input v-model="formData.username" :disabled="true" />
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="formData.email" />
@@ -84,19 +91,22 @@
     </el-card>
 
     <AddUser :show-dialog.sync="showDialog" />
+    <AddRoles :roles-dialog.sync="rolesDialog" />
   </div>
 </template>
 
 <script>
 import AddUser from './components/AddUser'
-import { getUserlist, deleteUser } from '@/api/user'
+import AddRoles from './components/AddRoles'
+import { getUserlist, deleteUser, editUser } from '@/api/user'
 export default {
   filters: {},
-  components: { AddUser },
+  components: { AddUser, AddRoles },
   data () {
     return {
       formData: {
-
+        username: '',
+        id: '',
         email: '',
         mobile: ''
       },
@@ -118,7 +128,8 @@ export default {
         total: null
       },
       showDialog: false,
-      showEditDialog: false
+      showEditDialog: false,
+      rolesDialog: false
     }
   },
   computed: {},
@@ -143,7 +154,12 @@ export default {
       this.page.pagesize = Newpagesize
       this.getUserlist()
     },
-
+    EditDialog (row) {
+      console.log(row)
+      this.formData.username = row.username
+      this.formData.id = row.id
+      this.showEditDialog = true
+    },
     async deleteUser (id) {
       try {
         await this.$confirm('确认要删除该角色吗')
@@ -155,14 +171,19 @@ export default {
         console.log(error)
       }
     },
-    async btnOk () {
-      await this.$refs.addUser.validate()
+    async btnOk (id) {
+      this.id = this.formData.id
+      // await this.$refs.editUser.validate()
+
+      const res = await editUser(this.formData)
+      console.log(res)
+      this.getUserlist()
 
       // await emitUser(this.formData)
 
-      this.$parent.getUserlist && this.$parent.getUserlist()
+      // this.$parent.getUserlist && this.$parent.getUserlist()
 
-      this.$parent.showDialog = false
+      this.showEditDialog = false
     },
 
     async btnCancel () {
@@ -172,8 +193,8 @@ export default {
         email: '',
         mobile: ''
       }
-      this.$refs.addUser.resetFields()
-      this.$emit('update:showDialog', false)
+      this.$refs.resetFields()
+      this.showEditDialog = false
     }
   }
 }

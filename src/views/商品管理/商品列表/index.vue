@@ -11,7 +11,7 @@
                 <el-button slot="append" icon="el-icon-search" />
               </el-input>
             </div>
-            <el-button type="primary">添加商品</el-button>
+            <el-button type="primary" @click="toaddGoods">添加商品</el-button>
           </el-row>
         </el-col>
         <el-col>
@@ -30,8 +30,12 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary" size="mini" icon="el-icon-edit">_编辑</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete">_删除</el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit"
+            >_编辑</el-button
+          >
+          <el-button type="danger" size="mini" icon="el-icon-delete"
+            >_删除</el-button
+          >
         </el-table-column>
       </el-table>
       <el-pagination
@@ -48,12 +52,15 @@
 </template>
 
 <script>
+
 import { getGoodsList } from '@/api/goods'
 export default {
+  name: 'AddGoods',
   filters: {},
-  components: {},
+
   data () {
     return {
+      visible: false,
       select: '',
       page: {
         query: '',
@@ -70,6 +77,9 @@ export default {
     this.getGoodsList()
   },
   methods: {
+    toaddGoods () {
+      this.$router.push('./goods/add')
+    },
     async getGoodsList () {
       const { goods, total } = await getGoodsList(this.page)
 

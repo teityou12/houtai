@@ -6,19 +6,19 @@
       @toggleClick="toggleSideBar"
     /> -->
     <div class="app-breadcrumb">江苏开心客栈科技股份有限公司</div>
-    <!-- <breadcrumb class="breadcrumb-container" /> -->
+
     <el-button @click.native="logout">退出</el-button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import Breadcrumb from '@/components/Breadcrumb'
+
 // import Hamburger from '@/components/Hamburger'
 
 export default {
   components: {
-    // Breadcrumb,
+
     // Hamburger
   },
   computed: {

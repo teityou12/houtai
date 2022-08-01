@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view />
+    <ruoter-view />
   </div>
 </template>
 
@@ -20,4 +20,3 @@ export default {
 
 <style scoped lang='scss'>
 </style>
-
